@@ -5,6 +5,7 @@
   home-manager.useUserPackages = true;
   home-manager.users.sp = { pkgs, ... }: {
     programs.zsh.enable = true;
+    programs.bash.enable = true;
     programs.starship.enable = true;
     programs.git = {
       enable = true;
