@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -87,12 +88,12 @@
     description = "sp";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-    #  thunderbird
+      #  thunderbird
     ];
   };
-  
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  
+
   # Install firefox.
   programs.firefox.enable = true;
   # programs.hyprland.enable = true;
@@ -103,14 +104,14 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-     neovim
-     alacritty
-     go
-     fzf
-     jq
-     clang
+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #  wget
+    neovim
+    alacritty
+    go
+    fzf
+    jq
+    clang
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

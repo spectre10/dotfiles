@@ -13,20 +13,22 @@
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
-  let
-    lib = nixpkgs.lib;
-    system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
-  in {
-    nixosConfigurations = {
-      nixos = lib.nixosSystem {
-        modules = [
-          ./configuration.nix
-          home-manager.nixosModules.home-manager {
-            imports = [ (import ./home.nix home-manager) ];
-          }
-        ];
+    let
+      lib = nixpkgs.lib;
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in
+    {
+      nixosConfigurations = {
+        nixos = lib.nixosSystem {
+          modules = [
+            ./configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              imports = [ (import ./home.nix home-manager) ];
+            }
+          ];
+        };
       };
     };
-  };
 }
