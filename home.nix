@@ -1,5 +1,4 @@
-{config, pkgs, ...}:
-
+home-manager:{config, pkgs, ...}:
 {
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
@@ -15,8 +14,15 @@
         init.defaultBranch = "main";
       };
     };
-    home.packages = [
-      pkgs.hello
+    programs.neovim.enable = true;
+    programs.neovim.plugins = [
+      pkgs.vimPlugins.nvim-treesitter
+      pkgs.vimPlugins.nvim-treesitter.withAllGrammars
+    ];
+    home.packages = with pkgs; [
+      cargo
+      rustc
+      rustfmt
     ];
     home.username = "sp";
     home.homeDirectory = "/home/sp";
@@ -24,7 +30,10 @@
     home.sessionVariables = {
       EDITOR = "nvim";
     };
-    
+    xdg.configFile."nvim" = {
+      source = ./config/nvim;
+      recursive = true;
+    };
   # The state version is required and should stay at the version you
   # originally installed.
     home.stateVersion = "24.05";

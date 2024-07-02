@@ -12,7 +12,7 @@
     # nixpkgs.url = "nixpkgs/{BRANCH-NAME}";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }:
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:
   let
     lib = nixpkgs.lib;
     system = "x86_64-linux";
@@ -23,7 +23,7 @@
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager {
-            imports = [ ./home.nix ];
+            imports = [ (import ./home.nix home-manager) ];
           }
         ];
       };

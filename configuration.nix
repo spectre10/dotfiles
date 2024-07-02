@@ -110,6 +110,7 @@
      go
      fzf
      jq
+     clang
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
