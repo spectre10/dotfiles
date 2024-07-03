@@ -12,20 +12,33 @@
     # nixpkgs.url = "nixpkgs/{BRANCH-NAME}";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, ... }:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      userInfo = {
+        name = "Ghanshyam Thakkar";
+        username = "sp";
+        email = "shyamthakkar001@gmail.com";
+        homeDirectory = "/home/sp";
+      };
+      stateVersion = "24.05";
     in
     {
       nixosConfigurations = {
         nixos = lib.nixosSystem {
           modules = [
-            ./configuration.nix
+            (import ./configuration.nix {
+              inherit userInfo stateVersion;
+            })
             home-manager.nixosModules.home-manager
             {
-              imports = [ (import ./home.nix home-manager) ];
+              imports = [
+                (import ./home.nix {
+                  inherit userInfo stateVersion;
+                })
+              ];
             }
           ];
         };
