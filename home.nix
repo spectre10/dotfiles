@@ -50,26 +50,30 @@
       };
     };
 
+    home = {
+      username = userInfo.username;
+      homeDirectory = userInfo.homeDirectory;
+      packages = with pkgs; [
+        cargo
+        rustc
+        rustfmt
+        nerdfonts
+      ];
+      shellAliases = {
+        gl = "git log";
+        gs = "git status";
+        n = "nvim";
+      };
+      # The state version is required and should stay at the version you
+      # originally installed.
+      stateVersion = stateVersion;
+    };
+
     fonts.fontconfig.enable = true;
-
-    home.packages = with pkgs; [
-      cargo
-      rustc
-      rustfmt
-      nerdfonts
-    ];
-
-    home.username = userInfo.username;
-    home.homeDirectory = userInfo.homeDirectory;
-
-    # home.sessionVariables = { };
 
     xdg.configFile."nvim" = {
       source = ./config/nvim;
       # recursive = true;
     };
-    # The state version is required and should stay at the version you
-    # originally installed.
-    home.stateVersion = stateVersion;
   };
 }
