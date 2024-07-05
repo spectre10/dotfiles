@@ -3,20 +3,19 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-24.05";
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    # use the following for unstable:
-    # nixpkgs.url = "nixpkgs/nixos-unstable";
-
-    # or any branch you want:
-    # nixpkgs.url = "nixpkgs/{BRANCH-NAME}";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs-unstable = import nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
       userInfo = {
         name = "Ghanshyam Thakkar";
         username = "sp";
@@ -28,17 +27,16 @@
     {
       nixosConfigurations = {
         nixos = lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit userInfo stateVersion; };
           modules = [
-            (import ./configuration.nix {
-              inherit userInfo stateVersion;
-            })
+            ./configuration.nix
             home-manager.nixosModules.home-manager
             {
-              imports = [
-                (import ./home.nix {
-                  inherit userInfo stateVersion;
-                })
-              ];
+              home-manager.useUserPackages = true;
+              home-manager.useGlobalPkgs = true;
+              home-manager.users.${userInfo.username} = import ./home.nix;
+              home-manager.extraSpecialArgs = { inherit userInfo stateVersion pkgs-unstable; };
             }
           ];
         };

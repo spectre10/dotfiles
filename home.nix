@@ -1,79 +1,85 @@
-{ userInfo, stateVersion }: { config, pkgs, ... }:
+{ config, pkgs, pkgs-unstable, userInfo, stateVersion, ... }:
 {
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.backupFileExtension = "backup";
-  home-manager.users.${userInfo.username} = { ... }: {
+  programs.zsh.enable = true;
+  programs.bash.enable = true;
+  programs.starship = {
+    enable = true;
+  };
 
-    programs.zsh.enable = true;
-    programs.bash.enable = true;
-    programs.starship.enable = true;
-
-    programs.git = {
-      enable = true;
-      userName = userInfo.name;
-      userEmail = userInfo.email;
-      extraConfig = {
-        init.defaultBranch = "main";
-      };
+  programs.git = {
+    enable = true;
+    userName = userInfo.name;
+    userEmail = userInfo.email;
+    extraConfig = {
+      init.defaultBranch = "main";
     };
+    package = pkgs-unstable.git;
+  };
 
-    programs.neovim = {
-      enable = true;
-      plugins = [
-        pkgs.vimPlugins.nvim-treesitter.withAllGrammars
-      ];
-      defaultEditor = true;
-    };
+  programs.neovim = {
+    enable = true;
+    plugins = [
+      pkgs.vimPlugins.nvim-treesitter.withAllGrammars
+    ];
+    defaultEditor = true;
+  };
 
-    programs.alacritty = {
-      enable = true;
-      settings = {
-        font = {
-          normal = {
-            family = "FiraCode Nerd Font";
-            style = "Regular";
-          };
-          bold = {
-            family = "FiraCode Nerd Font";
-            style = "Bold";
-          };
-          italic = {
-            family = "FiraCode Nerd Font";
-            style = "Italic";
-          };
-          size = 12.0;
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      font = {
+        normal = {
+          family = "FiraCode Nerd Font";
+          style = "Regular";
         };
-        window = {
-          startup_mode = "Maximized";
+        bold = {
+          family = "FiraCode Nerd Font";
+          style = "Bold";
+        };
+        italic = {
+          family = "FiraCode Nerd Font";
+          style = "Italic";
+        };
+        size = 12.0;
+      };
+      window = {
+        startup_mode = "Maximized";
+        padding = {
+          x = 20;
+          y = 10;
         };
       };
     };
+  };
 
-    home = {
-      username = userInfo.username;
-      homeDirectory = userInfo.homeDirectory;
-      packages = with pkgs; [
-        cargo
-        rustc
-        rustfmt
-        nerdfonts
-      ];
-      shellAliases = {
-        gl = "git log";
-        gs = "git status";
-        n = "nvim";
-      };
-      # The state version is required and should stay at the version you
-      # originally installed.
-      stateVersion = stateVersion;
+  home = {
+    username = userInfo.username;
+    homeDirectory = userInfo.homeDirectory;
+    packages = with pkgs; [
+      cargo
+      rustc
+      rustfmt
+      nerdfonts
+      protonvpn-gui
+      protonvpn-cli
+    ];
+    shellAliases = {
+      gl = "git log";
+      gs = "git status";
+      n = "nvim";
+      cl = "clear";
+      ls = "ls -lah";
+      ".." = "cd ..";
     };
+    # The state version is required and should stay at the version you
+    # originally installed.
+    stateVersion = stateVersion;
+  };
 
-    fonts.fontconfig.enable = true;
+  fonts.fontconfig.enable = true;
 
-    xdg.configFile."nvim" = {
-      source = ./config/nvim;
-      # recursive = true;
-    };
+  xdg.configFile."nvim" = {
+    source = ./config/nvim;
+    # recursive = true;
   };
 }
