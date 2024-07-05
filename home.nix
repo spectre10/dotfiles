@@ -1,4 +1,4 @@
-{ config, pkgs, pkgs-unstable, userInfo, stateVersion, ... }:
+{ config, pkgs, pkgs-unstable, pkgs-master, userInfo, stateVersion, ... }:
 {
   programs.zsh.enable = true;
   programs.bash.enable = true;
@@ -13,7 +13,7 @@
     extraConfig = {
       init.defaultBranch = "main";
     };
-    package = pkgs-unstable.git;
+    package = pkgs-master.git;
   };
 
   programs.neovim = {
