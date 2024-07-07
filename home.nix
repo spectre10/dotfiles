@@ -52,6 +52,10 @@
     };
   };
 
+  programs.btop = {
+    enable = true;
+  };
+
   home = {
     username = userInfo.username;
     homeDirectory = userInfo.homeDirectory;
@@ -62,6 +66,7 @@
       nerdfonts
       protonvpn-gui
       protonvpn-cli
+      nvtopPackages.full
     ];
     shellAliases = {
       gl = "git log";
