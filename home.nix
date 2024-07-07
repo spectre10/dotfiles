@@ -56,6 +56,10 @@
     enable = true;
   };
 
+  programs.lazygit = {
+    enable = true;
+  };
+
   home = {
     username = userInfo.username;
     homeDirectory = userInfo.homeDirectory;
