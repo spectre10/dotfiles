@@ -64,6 +64,10 @@
     enable = true;
   };
 
+  programs.fastfetch = {
+    enable = true;
+  };
+
   home = {
     username = userInfo.username;
     homeDirectory = userInfo.homeDirectory;
