@@ -6,6 +6,10 @@
     enable = true;
   };
 
+  programs.ripgrep = {
+    enable = true;
+  };
+
   programs.git = {
     enable = true;
     userName = userInfo.name;
@@ -77,7 +81,7 @@
       gs = "git status";
       n = "nvim";
       cl = "clear";
-      ls = "ls -lah";
+      ls = "ls -lah --color=auto";
       ".." = "cd ..";
     };
     # The state version is required and should stay at the version you

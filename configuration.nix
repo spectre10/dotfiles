@@ -111,7 +111,14 @@
     go
     fzf
     jq
-    clang
+
+    gcc
+    gnumake
+    openssl
+    zlib
+    expat
+    gettext
+    perl
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
